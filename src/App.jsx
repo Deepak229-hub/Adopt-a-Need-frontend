@@ -10,15 +10,20 @@ import Logout from "./pages/Logout";
 import Profile from "./pages/Profile";
 import { useAuth } from "./context/AuthContext";
 import Footer from "./components/Footer";
+import AdminDashboard from "./pages/AdminDashboard";
+import AdminLayout from "./pages/AdminLayout";
+import Children from "./pages/Children";
+import Volunteer from "./pages/Volunteer";
+import AppLayout from "./pages/AppLayout";
 
 const App = () => {
-  const {isLoggedIn} = useAuth();
+  const {isLoggedIn, userData} = useAuth();
 
   return (
     <>
     <BrowserRouter>
-    <Navbar />
     <Routes>
+      <Route element={<AppLayout />} >
       <Route path="/" element={<Home />} />
       <Route path="/about" element={<About />} />
       <Route path="/donate" element={<Donate />} />
@@ -26,9 +31,14 @@ const App = () => {
       <Route path="/register" element={<Register />} />
       <Route path="/logout" element={<Logout />} />
       <Route path="/profile" element={isLoggedIn ? <Profile /> : <Login />} />
+      </Route>
+      <Route path="/admin" element={userData.isadmin ? <AdminLayout /> : <Login />}>
+        <Route index element={<AdminDashboard />} />
+        <Route path="children" element={<Children />} />
+        <Route path="volunteer" element={<Volunteer />} />
+      </Route>
       <Route path="*" element={<PageNotFound />} />
     </Routes>
-    <Footer />
     </BrowserRouter>
     </>
   );

@@ -25,7 +25,7 @@ export const AuthProvider = ({ children }) => {
     }
 
     fetchData();
-  }, []);
+  }, [token]);
 
   const logOutUser = () => {
     setToken("");

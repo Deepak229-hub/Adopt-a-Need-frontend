@@ -56,7 +56,7 @@ const Profile = () => {
                 <h3 className={`text-xl font-bold text-center`}>Information</h3>
               </div>
               <form onSubmit={handleSubmit}>
-                <div className={`grid grid-cols-2`}>
+                <div className={`grid grid-cols-[1fr_2fr]`}>
                   <div className={`my-2`}>
                     <p className={`font-bold`}>Email: </p>
                   </div>
@@ -80,12 +80,6 @@ const Profile = () => {
                       onChange={handleChange}
                       className={`outline-2 rounded-md px-2 text-right`}
                     />
-                  </div>
-                  <div className={`my-2`}>
-                    <p className={`font-bold`}>Is Admin?: </p>
-                  </div>
-                  <div className={`my-2 text-right`}>
-                    <p>{userData.isadmin ? "Yes" : "No"}</p>
                   </div>
                   <div>
                     <button

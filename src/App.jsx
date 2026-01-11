@@ -15,6 +15,7 @@ import AdminLayout from "./pages/AdminLayout";
 import Children from "./pages/Children";
 import Volunteer from "./pages/Volunteer";
 import AppLayout from "./pages/AppLayout";
+import { ChildrenProvider } from "./context/ChildrenContext";
 
 const App = () => {
   const {isLoggedIn, userData} = useAuth();
@@ -32,7 +33,7 @@ const App = () => {
       <Route path="/logout" element={<Logout />} />
       <Route path="/profile" element={isLoggedIn ? <Profile /> : <Login />} />
       </Route>
-      <Route path="/admin" element={userData.isadmin ? <AdminLayout /> : <Login />}>
+      <Route path="/admin" element={userData.isadmin ? <ChildrenProvider><AdminLayout /></ChildrenProvider> : <Login />}>
         <Route index element={<AdminDashboard />} />
         <Route path="children" element={<Children />} />
         <Route path="volunteer" element={<Volunteer />} />

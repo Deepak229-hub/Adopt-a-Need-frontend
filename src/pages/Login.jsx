@@ -9,7 +9,7 @@ const Login = () => {
     password: "",
   });
 
-  const {storeToken} = useAuth();
+  const {storeToken, loading, setLoading} = useAuth();
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -24,12 +24,13 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+    setLoading(true);
     const response = await loginUser(user);
     
     if(response.ok) {
         alert(response.msg);
         storeToken(response.token);
+        setLoading(false);
         navigate("/");
         
         setUser({
@@ -82,10 +83,10 @@ const Login = () => {
               </div>
               <div className={`my-4`}>
                 <button
-                  className={`bg-green-500 text-white px-2 py-1 rounded-md`}
+                  className={`text-white px-2 py-1 rounded-md ${loading ? 'bg-green-600 disabled' : 'bg-green-500'}`}
                   type="submit"
                 >
-                  Log in
+                  {loading ? 'Logging in...' : 'Log in'}
                 </button>
               </div>
             </form>

@@ -16,6 +16,7 @@ import Children from "./pages/Children";
 import Volunteer from "./pages/Volunteer";
 import AppLayout from "./pages/AppLayout";
 import { ChildrenProvider } from "./context/ChildrenContext";
+import { VolunteerProvider } from "./context/VolunteerContext";
 
 const App = () => {
   const {isLoggedIn, userData} = useAuth();

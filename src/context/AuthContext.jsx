@@ -8,6 +8,7 @@ export const AuthProvider = ({ children }) => {
   const [token, setToken] = useState(localStorage.getItem("token") || "");
   const [userData, setUserdata] = useState({});
   const [isLoggedIn, setLoggedIn] = useState(!!token);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     setLoggedIn(!!token);
@@ -16,9 +17,11 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     if (!token) return;
     async function fetchData() {
+      setLoading(true);
       const response = await getUser(token);
       if (response.ok) {
         setUserdata(response.msg);
+        setLoading(false);
       } else {
         logOutUser();
       }
@@ -38,7 +41,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{userData, storeToken, isLoggedIn, logOutUser, token, setUserdata}}>
+    <AuthContext.Provider value={{userData, storeToken, isLoggedIn, logOutUser, token, setUserdata, loading, setLoading}}>
       {children}
     </AuthContext.Provider>
   );

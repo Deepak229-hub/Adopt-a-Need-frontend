@@ -37,4 +37,47 @@ export const addVolunteer = async (body, token) => {
     } catch (error) {
         console.log("An error occured");
     }
+};
+
+export const updateVolunteer = async (body, token) => {
+    try {
+        const response = await fetch(URL + '/api/volunteer/update', {
+            method: 'POST',
+            headers: {
+                "Authorization": `Bearer ${token}`,
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(body),
+        });
+
+        const data = await response.json();
+        return {
+            ok: response.ok,
+            ...data,
+        };
+    } catch (error) {
+        console.log(error);
+    }
+};
+
+
+export const deleteVolunteer = async (body, token) => {
+    try {
+        const response = await fetch(URL + '/api/volunteer/delete', {
+            method: 'POST',
+            headers: {
+                "Authorization": `Bearer ${token}`,
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(body),
+        });
+
+        const data = await response.json();
+        return {
+            ok: response.ok,
+            ...data,
+        };
+    } catch (error) {
+        console.log(error);
+    }
 }

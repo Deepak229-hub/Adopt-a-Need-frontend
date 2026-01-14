@@ -83,7 +83,7 @@ const Login = () => {
               </div>
               <div className={`my-4`}>
                 <button
-                  className={`text-white px-2 py-1 rounded-md ${loading ? 'bg-green-600 disabled' : 'bg-green-500'}`}
+                  className={`text-white px-2 py-1 rounded-md ${loading ? 'bg-green-600 cursor-not-allowed' : 'bg-green-500'}`}
                   type="submit"
                 >
                   {loading ? 'Logging in...' : 'Log in'}

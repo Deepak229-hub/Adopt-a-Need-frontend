@@ -1,30 +1,33 @@
 import { useState } from "react";
 import { createOrder, validateOrder } from "../api/donation";
+import {ShieldCheck} from "lucide-react"
 
 const Donate = () => {
-    const [hide, setHide] = useState(true);
-
-    const [amount, setAmount] = useState(null);
-
     const [info, setInfo] = useState({
         name: "",
         email: "",
         phone: "",
-        amount: amount,
+        amount: null,
+        domain: "WHEREVER MOST NEEDED"
     });
 
     const payNow = async () => {
         const body = {
-            amount: amount,
+            amount: info.amount,
             currency: "INR",
             receipt: "receipt#1",
-            notes: {},
-        }
+            notes: {
+                "name": info.name,
+                "email": info.email,
+                "phone": info.phone,
+                "domain": info.domain,
+            }
+        };
         const order = await createOrder(body);
 
         let options = {
             "key": "rzp_test_RoEYadOfP4eVdX",
-            "amount": amount,
+            "amount": info.amount * 100,
             "currency": "INR",
             "name": "Adopt-a-Need",
             "description": "Test Transaction",
@@ -40,11 +43,11 @@ const Donate = () => {
                 }
             },
             "prefill": {
-                "name": "Deepak Tiwari",
-                "email": "tiwarideepak.dk.2004@gmail.com",
-                "contact": "+917490893975",
+                "name": info.name,
+                "email": info.email,
+                "contact": "+91" + info.phone,
             },
-            "notes": "sample payment",
+            "notes": info.domain,
             "theme": {
                 "color": "#3399cc",
             },
@@ -86,23 +89,43 @@ const Donate = () => {
                     </div>
                     <div className={`self-center w-1/2`}>
                         <div className={`bg-white py-4 px-6 flex flex-col gap-5`}>
+                            <div className={`w-full flex justify-center text-sm items-center gap-2`}>
+                                <div>
+                                    <ShieldCheck color="green" />
+                                </div>
+                                <div>
+                                    <p>Secure payment with </p>
+                                </div>
+                                <div>
+                                    <img src="/images/razorpay.png" className="h-5" alt="" />
+                                </div>
+                            </div>
                             <div className={`grid grid-cols-3 gap-3`}>
-                                <button onClick={() => setAmount(1200)} className={`outline-2 outline-gray-300 rounded-sm focus:outline-3 focus:outline-green-500`}>₹1,200</button>
-                                <button onClick={() => setAmount(650)} className={`outline-2 outline-gray-300 rounded-sm focus:outline-3 focus:outline-green-500`}>₹650</button>
-                                <button onClick={() => setAmount(350)} className={`outline-2 outline-gray-300 rounded-sm focus:outline-3 focus:outline-green-500`}>₹350</button>
-                                <button onClick={() => setAmount(140)} className={`outline-2 outline-gray-300 rounded-sm focus:outline-3 focus:outline-green-500`}>₹140</button>
-                                <button onClick={() => setAmount(130)} className={`outline-2 outline-gray-300 rounded-sm focus:outline-3 focus:outline-green-500`}>₹130</button>
-                                <button onClick={() => setAmount(120)} className={`outline-2 outline-gray-300 rounded-sm focus:outline-3 focus:outline-green-500`}>₹120</button>
+                                {[1200, 650, 350, 140, 130, 120].map(d => (
+                                    <>
+                                    <button onClick={() => setInfo({...info, amount: d})} className={`outline-2 outline-gray-300 focus:outline-3 focus:outline-green-500 rounded-sm py-2`}>₹{d}</button>
+                                    </>
+                                ))}
                             </div>
                             <div className={`text-left`}>
-                                <form className="flex flex-col gap-3">
+                                <form className="flex flex-col gap-3" onSubmit={async (e) => {
+                                            e.preventDefault();
+                                            await payNow();
+                                            setInfo({
+                                                name: "",
+                                                email: "",
+                                                phone: "",
+                                                domain: "WHEREVER MOST NEEDED",
+                                                amount: null,
+                                            });
+                                        }}>
                                     <div>
                                         <label htmlFor="amount" className={`text-sm`}>Amount (₹)</label><br />
                                         <input 
                                          type="number"
                                          name="amount"
-                                         value={amount}
-                                         onChange={(e) => setAmount(e.target.value)}
+                                         value={info.amount ?? ""}
+                                         onChange={(e) => setInfo({...info, [e.target.name]: e.target.value === "" ? null : Number(e.target.value)})}
                                          placeholder="enter amount"
                                          className={`outline-2 outline-gray-300 w-full py-2 px-3 rounded-sm focus:outline-blue-500 focus:outline-3`}
                                          required
@@ -143,6 +166,26 @@ const Donate = () => {
                                          className={`outline-2 outline-gray-300 w-full py-2 px-3 rounded-sm focus:outline-blue-500 focus:outline-3`}
                                          required
                                         />
+                                    </div>
+                                    <div>
+                                        <label htmlFor="domain" className="text-sm">domain</label> <br />
+                                        <select 
+                                         name="domain" 
+                                         value={info.domain}
+                                         onChange={(e) => setInfo({
+                                            ...info,
+                                            [e.target.name]: e.target.value,
+                                         })}
+                                         className={`outline-2 outline-gray-300 w-full py-2 px-3 rounded-sm focus:outline-blue-500 focus:outline-3`}
+                                        >
+                                            <option value="HEALTHCARE">Healthcare</option>
+                                            <option value="EDUCATION">Education</option>
+                                            <option value="LIFESTYLE">Lifestyle</option>
+                                            <option value="WHEREVER MOST NEEDED">Wherever most needed</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <button type="submit" className={`bg-green-500 text-white py-2 px-3 shadow-sm rounded-sm`}>Donate</button>
                                     </div>
                                 </form>
                             </div>

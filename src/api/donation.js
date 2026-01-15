@@ -1,4 +1,4 @@
-const URL = "https://adopt-a-need.onrender.com";
+const URL = "https://adopt-a-need.onrender.com/api/order";
 
 export const createOrder = async (body) => {
     try {

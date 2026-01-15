@@ -1,4 +1,4 @@
-const URL = "http://localhost:3000/api/order";
+const URL = "https://adopt-a-need.onrender.com";
 
 export const createOrder = async (body) => {
     try {

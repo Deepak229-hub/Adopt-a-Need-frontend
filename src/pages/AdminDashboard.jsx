@@ -1,7 +1,10 @@
 import { useAuth } from "../context/AuthContext";
+import { useChildren } from "../context/ChildrenContext";
 
 const AdminDashboard = () => {
     const {userData} = useAuth();
+
+    const {childrenInfo} = useChildren();
 
     return (
         <section className={`p-3 flex flex-col gap-5 overflow-y-scroll`}>
@@ -11,7 +14,7 @@ const AdminDashboard = () => {
             <div className={`flex gap-4`}>
                 <div className={`bg-sky-100 shadow-2xs rounded-md size-1/3 p-3 flex-col justify-center items-center text-center`}>
                     <h3 className={`font-bold text-xl`}>Children</h3>
-                    <p>120</p>
+                    <p>{childrenInfo.length}</p>
                 </div>
                 <div className={`bg-sky-100 shadow-2xs rounded-md size-1/3 p-3 flex-col justify-center items-center text-center`}>
                     <h3 className={`font-bold text-xl`}>Donations</h3>

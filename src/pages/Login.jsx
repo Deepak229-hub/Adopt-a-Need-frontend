@@ -39,6 +39,7 @@ const Login = () => {
         });
     } else {
         alert(response.msg || response.message);
+        setLoading(false);
     }
   }
 

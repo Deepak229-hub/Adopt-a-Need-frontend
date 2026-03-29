@@ -1,4 +1,4 @@
-import {BrowserRouter, Route, Routes} from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Home from "./pages/Home";
 import About from "./pages/About";
 import Login from "./pages/Login";
@@ -19,29 +19,43 @@ import { ChildrenProvider } from "./context/ChildrenContext";
 import { VolunteerProvider } from "./context/VolunteerContext";
 
 const App = () => {
-  const {isLoggedIn, userData} = useAuth();
+  const { isLoggedIn, userData } = useAuth();
 
   return (
     <>
-    <BrowserRouter>
-    <Routes>
-      <Route element={<AppLayout />} >
-      <Route path="/" element={<Home />} />
-      <Route path="/about" element={<About />} />
-      <Route path="/donate" element={<Donate />} />
-      <Route path="/login" element={<Login />} />
-      <Route path="/register" element={<Register />} />
-      <Route path="/logout" element={<Logout />} />
-      <Route path="/profile" element={isLoggedIn ? <Profile /> : <Login />} />
-      </Route>
-      <Route path="/admin" element={userData.isadmin ? <ChildrenProvider><AdminLayout /></ChildrenProvider> : <Login />}>
-        <Route index element={<AdminDashboard />} />
-        <Route path="children" element={<Children />} />
-        <Route path="volunteer" element={<Volunteer />} />
-      </Route>
-      <Route path="*" element={<PageNotFound />} />
-    </Routes>
-    </BrowserRouter>
+      <BrowserRouter>
+        <Routes>
+          <Route element={<AppLayout />}>
+            <Route path="/" element={<Home />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/donate" element={<Donate />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/logout" element={<Logout />} />
+            <Route
+              path="/profile"
+              element={isLoggedIn ? <Profile /> : <Login />}
+            />
+          </Route>
+          <Route
+            path="/admin"
+            element={
+              userData.isadmin ? (
+                <ChildrenProvider>
+                  <AdminLayout />
+                </ChildrenProvider>
+              ) : (
+                <Login />
+              )
+            }
+          >
+            <Route index element={<AdminDashboard />} />
+            <Route path="children" element={<Children />} />
+            <Route path="volunteer" element={<Volunteer />} />
+          </Route>
+          <Route path="*" element={<PageNotFound />} />
+        </Routes>
+      </BrowserRouter>
     </>
   );
 };
